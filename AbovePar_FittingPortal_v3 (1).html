@@ -1,0 +1,2465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!-- Allows this page to be embedded in Wix via iframe URL embed -->
+<meta name="referrer" content="no-referrer-when-downgrade">
+<title>Above Par Golf — Club Fitting Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green: #1D9E75;
+  --green-dark: #0f5c42;
+  --green-deep: #0a3d2c;
+  --green-light: #d4f0e6;
+  --green-mid: #2db888;
+  --gold: #c9a44c;
+  --gold-light: #f0c96a;
+  --cream: #f8f5ef;
+  --cream-dark: #ede8dc;
+  --white: #ffffff;
+  --text: #1a1a1a;
+  --text-mid: #444;
+  --text-light: #777;
+  --border: #ddd;
+  --red: #c0392b;
+  --orange: #e67e22;
+  --blue: #2980b9;
+  --shadow: 0 2px 16px rgba(0,0,0,0.08);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.12);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: #f0f4f2;
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ── NAV ── */
+.portal-nav {
+  background: var(--green-deep);
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  overflow: visible;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nav-logo {
+  width: 36px; height: 36px;
+  background: var(--gold);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  color: var(--green-deep);
+  font-weight: 700;
+}
+
+.nav-title {
+  font-family: 'Playfair Display', serif;
+  color: white;
+  font-size: 17px;
+}
+
+.nav-title span { color: var(--gold); }
+
+.nav-tabs {
+  display: flex;
+  gap: 4px;
+}
+
+.nav-tab {
+  padding: 8px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.6);
+  transition: all 0.2s;
+  border: none;
+  background: transparent;
+}
+
+.nav-tab:hover { color: white; background: rgba(255,255,255,0.08); }
+.nav-tab.active { color: var(--gold); background: rgba(201,164,76,0.15); }
+
+.nav-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: rgba(255,255,255,0.7);
+  font-size: 13px;
+}
+
+.nav-user-dot {
+  width: 8px; height: 8px;
+  background: var(--green-mid);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+/* ── PANELS ── */
+.panel { display: none; padding: 28px 32px; max-width: 1400px; margin: 0 auto; }
+.panel.active { display: block; }
+
+/* ── PAGE HEADERS ── */
+.page-header {
+  margin-bottom: 28px;
+}
+.page-header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  color: var(--green-deep);
+  margin-bottom: 4px;
+}
+.page-header p { color: var(--text-light); font-size: 14px; }
+
+/* ── CARDS ── */
+.card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  margin-bottom: 20px;
+  overflow: visible;
+}
+
+.card-header {
+  background: var(--green-deep);
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-header h3 {
+  font-family: 'Playfair Display', serif;
+  color: var(--gold);
+  font-size: 15px;
+  letter-spacing: 0.03em;
+}
+
+.card-header .card-badge {
+  background: rgba(201,164,76,0.2);
+  color: var(--gold-light);
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-family: 'DM Mono', monospace;
+}
+
+.card-body { padding: 24px; }
+
+/* ── FORM ELEMENTS ── */
+.form-grid { display: grid; gap: 14px; }
+.form-grid-2 { grid-template-columns: 1fr 1fr; }
+.form-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+.form-grid-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+
+.form-group { display: flex; flex-direction: column; gap: 5px; }
+.form-group label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-light);
+  font-family: 'DM Mono', monospace;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 9px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: var(--text);
+  background: var(--cream);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(29,158,117,0.1);
+  background: white;
+}
+
+.form-group textarea { resize: vertical; min-height: 80px; }
+
+/* ── BUILD TABLE ── */
+.build-table-wrap {
+  overflow-x: auto;
+  overflow-y: visible;
+  margin: 0 -24px;
+  padding: 0 24px 8px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.build-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  min-width: 980px;
+}
+
+.build-table th {
+  background: var(--green-deep);
+  color: var(--gold);
+  padding: 9px 10px;
+  text-align: left;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  font-weight: 400;
+  white-space: nowrap;
+  position: sticky;
+  top: 60px;
+  z-index: 10;
+}
+
+.build-table td {
+  padding: 7px 8px;
+  border-bottom: 1px solid #eee;
+  vertical-align: middle;
+}
+
+/* Row is always interactive — lights up when a model is selected */
+.build-table tr.has-selection td {
+  background: #f8fffc !important;
+}
+
+.build-table tr.has-selection .club-label {
+  color: var(--green-deep);
+}
+
+.build-table tr:hover td {
+  background: #f0faf7 !important;
+}
+
+.build-table .club-label {
+  font-weight: 600;
+  color: var(--text-mid);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.build-table .section-row td {
+  background: linear-gradient(90deg, #e8f5f0, #f0f9f5) !important;
+  color: var(--green-dark);
+  font-weight: 700;
+  font-size: 11px;
+  padding: 6px 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-bottom: 2px solid var(--green-light);
+}
+
+.build-table select {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1.5px solid #ddd;
+  border-radius: 5px;
+  font-size: 11px;
+  background: white;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color 0.15s;
+  appearance: auto;
+  -webkit-appearance: auto;
+}
+
+.build-table select:hover {
+  border-color: var(--green);
+}
+
+.build-table select:focus {
+  border-color: var(--green);
+  box-shadow: 0 0 0 2px rgba(29,158,117,0.15);
+  outline: none;
+  background: white;
+}
+
+/* Head model select gets a slightly different style to stand out */
+.build-table .head-sel {
+  border-color: #bbd6ce;
+  background: #f8fffc;
+}
+
+.build-table input[type="text"] {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1.5px solid #ddd;
+  border-radius: 5px;
+  font-size: 11px;
+  background: white;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--text);
+}
+
+.build-table input[type="text"]:focus {
+  border-color: var(--green);
+  outline: none;
+}
+
+.price-cell {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--green-dark);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.total-cell {
+  font-family: 'DM Mono', monospace;
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--green-deep);
+  text-align: right;
+  background: #f0faf7 !important;
+}
+
+.total-cell.has-value {
+  color: var(--green-deep);
+  background: #e0f5ec !important;
+}
+
+.inactive-price {
+  color: #ccc;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+}
+
+.upcharge-badge {
+  display: inline-block;
+  background: rgba(201,164,76,0.15);
+  color: #7a5800;
+  border-radius: 3px;
+  font-size: 9px;
+  padding: 1px 4px;
+  font-family: 'DM Mono', monospace;
+  margin-left: 3px;
+  vertical-align: middle;
+}
+
+/* ── TOTALS BAR ── */
+.totals-bar {
+  display: flex;
+  justify-content: flex-end;
+  gap: 32px;
+  background: var(--green-deep);
+  padding: 14px 24px;
+  border-radius: 0 0 8px 8px;
+  margin-top: -1px;
+}
+
+.total-item { text-align: right; }
+.total-item .total-label {
+  font-size: 10px;
+  color: rgba(255,255,255,0.5);
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.total-item .total-val {
+  font-family: 'Playfair Display', serif;
+  color: var(--gold);
+  font-size: 20px;
+}
+
+/* ── BUTTONS ── */
+.btn {
+  padding: 10px 22px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+  font-family: 'DM Sans', sans-serif;
+  letter-spacing: 0.02em;
+}
+
+.btn-primary {
+  background: var(--green);
+  color: white;
+}
+.btn-primary:hover {
+  background: var(--green-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(29,158,117,0.3);
+}
+
+.btn-gold {
+  background: var(--gold);
+  color: var(--green-deep);
+}
+.btn-gold:hover {
+  background: var(--gold-light);
+  transform: translateY(-1px);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--green);
+  border: 1.5px solid var(--green);
+}
+.btn-outline:hover { background: var(--green-light); }
+
+.btn-sm { padding: 6px 14px; font-size: 12px; }
+.btn-danger { background: #fee; color: var(--red); border: 1.5px solid #fcc; }
+.btn-danger:hover { background: var(--red); color: white; }
+
+.btn-row {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #eee;
+}
+
+/* ── STATUS PILLS ── */
+.status-pill {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.status-fitting    { background: #e8f4fd; color: var(--blue); }
+.status-ordered    { background: #fff3cd; color: #856404; }
+.status-received   { background: #e8f0fe; color: #1a56db; }
+.status-qc         { background: #fce4ec; color: #c62828; }
+.status-ready      { background: #e6f4ea; color: #1e7e34; }
+.status-picked-up  { background: #f0f0f0; color: #555; }
+.status-issue      { background: #fff0e6; color: #c0392b; }
+
+/* ── ORDER DASHBOARD ── */
+.orders-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.filter-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.filter-chip {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  cursor: pointer;
+  border: 1.5px solid #ddd;
+  background: white;
+  color: var(--text-mid);
+  transition: all 0.15s;
+  font-weight: 500;
+}
+.filter-chip:hover { border-color: var(--green); color: var(--green); }
+.filter-chip.active { background: var(--green); border-color: var(--green); color: white; }
+
+.orders-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 16px;
+}
+
+.order-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  border-left: 4px solid var(--green);
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+}
+.order-card:hover { box-shadow: var(--shadow-lg); }
+.order-card.issue { border-left-color: var(--red); }
+.order-card.ready { border-left-color: var(--green-mid); }
+.order-card.picked-up { border-left-color: #bbb; opacity: 0.7; }
+
+.order-card-header {
+  padding: 14px 16px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.order-card-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  color: var(--green-deep);
+  margin-bottom: 2px;
+}
+
+.order-card-id {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--text-light);
+}
+
+.order-card-body { padding: 12px 16px; }
+
+.order-spec-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+  border-bottom: 1px solid #f8f8f8;
+  font-size: 12px;
+}
+
+.order-spec-row .spec-label {
+  color: var(--text-light);
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.order-spec-row .spec-val {
+  font-weight: 500;
+  color: var(--text);
+  text-align: right;
+  max-width: 180px;
+}
+
+.order-card-footer {
+  padding: 10px 16px;
+  background: #fafafa;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-select {
+  padding: 5px 10px;
+  border: 1.5px solid #ddd;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  background: white;
+  font-family: 'DM Sans', sans-serif;
+  flex: 1;
+}
+
+.balance-tag {
+  background: rgba(29,158,117,0.1);
+  color: var(--green-dark);
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.build-note-tag {
+  background: #fff8e1;
+  border: 1px solid #ffe082;
+  color: #5d4037;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  margin-top: 8px;
+  line-height: 1.5;
+}
+
+/* ── STATS BAR ── */
+.stats-bar {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  color: var(--green-deep);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-size: 10px;
+  color: var(--text-light);
+  font-family: 'DM Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ── CUSTOMER PORTAL ── */
+.portal-hero {
+  background: linear-gradient(135deg, var(--green-deep) 0%, var(--green-dark) 60%, var(--green) 100%);
+  border-radius: 16px;
+  padding: 48px 40px;
+  color: white;
+  margin-bottom: 28px;
+  position: relative;
+  overflow: hidden;
+}
+
+.portal-hero::before {
+  content: '⛳';
+  position: absolute;
+  right: 40px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 80px;
+  opacity: 0.08;
+}
+
+.portal-hero h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.portal-hero h2 span { color: var(--gold); }
+
+.portal-hero p {
+  color: rgba(255,255,255,0.7);
+  font-size: 15px;
+  max-width: 480px;
+  line-height: 1.6;
+}
+
+.lookup-box {
+  background: white;
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: var(--shadow-lg);
+  max-width: 480px;
+  margin: 0 auto 32px;
+}
+
+.lookup-box h3 {
+  font-family: 'Playfair Display', serif;
+  color: var(--green-deep);
+  font-size: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* ── ORDER STATUS VIEW ── */
+.order-status-view { display: none; }
+.order-status-view.visible { display: block; }
+
+.status-timeline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 28px 0;
+  position: relative;
+}
+
+.status-timeline::before {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  top: 20px;
+  height: 2px;
+  background: #eee;
+  z-index: 0;
+}
+
+.timeline-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  z-index: 1;
+  flex: 1;
+}
+
+.timeline-dot {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  border: 3px solid white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: all 0.3s;
+}
+
+.timeline-dot.done {
+  background: var(--green);
+  color: white;
+}
+
+.timeline-dot.current {
+  background: var(--gold);
+  color: var(--green-deep);
+  animation: glow 1.5s ease-in-out infinite;
+}
+
+@keyframes glow {
+  0%,100% { box-shadow: 0 0 0 0 rgba(201,164,76,0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(201,164,76,0); }
+}
+
+.timeline-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-light);
+  text-align: center;
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.04em;
+}
+
+.timeline-label.done { color: var(--green-dark); }
+.timeline-label.current { color: var(--gold); font-weight: 700; }
+
+.spec-display {
+  background: var(--cream);
+  border-radius: 12px;
+  padding: 24px;
+  margin-top: 20px;
+}
+
+.spec-display h4 {
+  font-family: 'Playfair Display', serif;
+  color: var(--green-deep);
+  font-size: 16px;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--green-light);
+}
+
+.spec-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.spec-item {
+  background: white;
+  border-radius: 8px;
+  padding: 10px 14px;
+  border: 1px solid var(--cream-dark);
+}
+
+.spec-item .si-label {
+  font-size: 10px;
+  color: var(--text-light);
+  font-family: 'DM Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 3px;
+}
+
+.spec-item .si-val {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.pickup-box {
+  background: linear-gradient(135deg, var(--green-deep), var(--green-dark));
+  border-radius: 12px;
+  padding: 20px 24px;
+  color: white;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pickup-box .pb-label {
+  font-size: 11px;
+  color: rgba(255,255,255,0.6);
+  font-family: 'DM Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 4px;
+}
+
+.pickup-box .pb-val {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  color: var(--gold);
+}
+
+/* ── TOAST ── */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--green-deep);
+  color: white;
+  padding: 14px 22px;
+  border-radius: 8px;
+  border-left: 4px solid var(--gold);
+  font-size: 13px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: all 0.3s;
+  z-index: 999;
+  max-width: 360px;
+  box-shadow: var(--shadow-lg);
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+
+/* ── EMAIL PREVIEW ── */
+.email-preview-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 500;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.email-preview-modal.open { display: flex; }
+
+.email-modal-inner {
+  background: white;
+  border-radius: 16px;
+  max-width: 560px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+}
+
+.email-modal-header {
+  background: var(--green-deep);
+  padding: 20px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 16px 16px 0 0;
+}
+
+.email-modal-header h3 {
+  font-family: 'Playfair Display', serif;
+  color: var(--gold);
+  font-size: 16px;
+}
+
+.close-modal {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.6);
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0 4px;
+}
+.close-modal:hover { color: white; }
+
+.email-body { padding: 24px; }
+
+.email-subject {
+  background: #f8f5ef;
+  border-radius: 6px;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  font-size: 12px;
+  color: var(--text-light);
+}
+.email-subject span { font-weight: 600; color: var(--text); }
+
+.email-content {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+.email-content .e-logo {
+  text-align: center;
+  padding: 16px 0;
+  border-bottom: 2px solid var(--green-light);
+  margin-bottom: 20px;
+}
+
+.email-content .e-logo-text {
+  font-family: 'Playfair Display', serif;
+  color: var(--green-deep);
+  font-size: 22px;
+}
+
+.email-content .e-logo-text span { color: var(--green); }
+
+.email-spec-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 13px;
+}
+.email-spec-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid #eee;
+}
+.email-spec-table td:first-child {
+  color: var(--text-light);
+  font-size: 11px;
+  font-family: 'DM Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  width: 140px;
+}
+.email-spec-table td:last-child { font-weight: 500; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .panel { padding: 16px; }
+  .form-grid-2, .form-grid-3, .form-grid-4 { grid-template-columns: 1fr; }
+  .stats-bar { grid-template-columns: repeat(3, 1fr); }
+  .orders-grid { grid-template-columns: 1fr; }
+  .nav-tabs { display: none; }
+  .spec-grid { grid-template-columns: 1fr; }
+  .portal-hero { padding: 28px 20px; }
+  .portal-hero::before { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="portal-nav">
+  <div class="nav-brand">
+    <div class="nav-logo">AP</div>
+    <span class="nav-title">Above Par <span>Fitting Portal</span></span>
+  </div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showPanel('fitter')">📋 Fitting Form</button>
+    <button class="nav-tab" onclick="showPanel('dashboard')">📊 Order Dashboard</button>
+    <button class="nav-tab" onclick="showPanel('customer')">👤 Customer Portal</button>
+  </div>
+  <div class="nav-user">
+    <div class="nav-user-dot"></div>
+    <span>Ryan G. — Fitter</span>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════════
+     PANEL 1: FITTER FORM
+══════════════════════════════════════════════════ -->
+<div class="panel active" id="panel-fitter">
+  <div class="page-header">
+    <h1>New Club Fitting</h1>
+    <p>Complete the fitting form below. Submitting will automatically email the customer their specs and create an order record.</p>
+  </div>
+
+  <!-- Customer Info -->
+  <div class="card">
+    <div class="card-header">
+      <h3>Customer Information</h3>
+      <span class="card-badge" id="fitting-id-display">FIT-000000</span>
+    </div>
+    <div class="card-body">
+      <div class="form-grid form-grid-2" style="margin-bottom:14px;">
+        <div class="form-group">
+          <label>First Name *</label>
+          <input type="text" id="f-firstname" placeholder="John">
+        </div>
+        <div class="form-group">
+          <label>Last Name *</label>
+          <input type="text" id="f-lastname" placeholder="Smith">
+        </div>
+        <div class="form-group">
+          <label>Email Address *</label>
+          <input type="email" id="f-email" placeholder="john@email.com">
+        </div>
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="tel" id="f-phone" placeholder="(240) 555-0000">
+        </div>
+      </div>
+      <div class="form-grid form-grid-4">
+        <div class="form-group">
+          <label>Fitter</label>
+          <select id="f-fitter">
+            <option>Ryan Goldsborough</option>
+            <option>Nick Isom</option>
+            <option>Staff Fitter</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Fitting Date</label>
+          <input type="date" id="f-date">
+        </div>
+        <div class="form-group">
+          <label>Fitting Type</label>
+          <select id="f-type">
+            <option>Full Bag (2hr)</option>
+            <option>Driver / Woods (1hr)</option>
+            <option>Irons (1hr)</option>
+            <option>Wedges Only</option>
+            <option>Putter Only</option>
+            <option>Demo Day</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Handicap Index</label>
+          <input type="number" id="f-handicap" placeholder="e.g. 12.4" step="0.1">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Player Assessment -->
+  <div class="card">
+    <div class="card-header">
+      <h3>Player Assessment</h3>
+    </div>
+    <div class="card-body">
+      <div class="form-grid form-grid-4" style="margin-bottom:14px;">
+        <div class="form-group">
+          <label>Club Head Speed (mph)</label>
+          <input type="number" id="f-chs" placeholder="e.g. 95">
+        </div>
+        <div class="form-group">
+          <label>Ball Speed (mph)</label>
+          <input type="number" id="f-bs" placeholder="e.g. 140">
+        </div>
+        <div class="form-group">
+          <label>Carry Distance (yds)</label>
+          <input type="number" id="f-carry" placeholder="e.g. 240">
+        </div>
+        <div class="form-group">
+          <label>Spin Rate (rpm)</label>
+          <input type="number" id="f-spin" placeholder="e.g. 2800">
+        </div>
+        <div class="form-group">
+          <label>Shaft Flex Recommendation</label>
+          <select id="f-flex">
+            <option value="">Select...</option>
+            <option>Ladies</option>
+            <option>Senior</option>
+            <option>Regular</option>
+            <option>Stiff</option>
+            <option>X-Stiff</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Grip Size</label>
+          <select id="f-gripsize">
+            <option value="">Select...</option>
+            <option>Undersize</option>
+            <option>Standard</option>
+            <option>Mid-Size</option>
+            <option>Oversize</option>
+            <option>Jumbo</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Lie Adjustment</label>
+          <select id="f-lie">
+            <option>Standard</option>
+            <option>1° Flat</option>
+            <option>2° Flat</option>
+            <option>3° Flat</option>
+            <option>1° Upright</option>
+            <option>2° Upright</option>
+            <option>3° Upright</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Glove Hand</label>
+          <select id="f-hand">
+            <option>Left (RH Player)</option>
+            <option>Right (LH Player)</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Fitting Goals & Notes</label>
+        <textarea id="f-goals" placeholder="Customer's goals, miss tendencies, swing notes, what they're trying to improve..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Build Sheet -->
+  <div class="card">
+    <div class="card-header">
+      <h3>Build Sheet — Club Specifications</h3>
+      <span class="card-badge">$ indicators = upcharge applies</span>
+    </div>
+    <div class="card-body" style="padding:0;">
+      <div class="build-table-wrap">
+          <table class="build-table" id="buildTable">
+            <thead>
+              <tr>
+                <th style="width:130px;">Club</th>
+                <th style="min-width:180px;">Head Model</th>
+                <th style="min-width:220px;">Shaft</th>
+                <th style="min-width:170px;">Grip</th>
+                <th style="width:60px;">Hand</th>
+                <th style="width:65px;">Len Adj</th>
+                <th style="width:65px;">Lie Adj</th>
+                <th style="width:40px;">Qty</th>
+                <th style="width:85px;">Base $</th>
+                <th style="width:100px;">Shaft UC</th>
+                <th style="width:75px;">Grip UC</th>
+                <th style="width:95px;">LINE TOTAL</th>
+              </tr>
+            </thead>
+            <tbody id="buildBody">
+            </tbody>
+          </table>
+      </div>
+      <div class="totals-bar">
+        <div class="total-item">
+          <div class="total-label">Subtotal</div>
+          <div class="total-val" id="t-subtotal">$0.00</div>
+        </div>
+        <div class="total-item">
+          <div class="total-label">Fitting Fee</div>
+          <div class="total-val" id="t-fitting">$200.00</div>
+        </div>
+        <div class="total-item">
+          <div class="total-label">Est. Total</div>
+          <div class="total-val" id="t-total">$0.00</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Order Details -->
+  <div class="card">
+    <div class="card-header"><h3>Order & Payment Details</h3></div>
+    <div class="card-body">
+      <div class="form-grid form-grid-4">
+        <div class="form-group">
+          <label>Primary Vendor</label>
+          <select id="f-vendor">
+            <option>TaylorMade Golf</option>
+            <option>Callaway Golf</option>
+            <option>Multiple Vendors</option>
+            <option>Mizuno</option>
+            <option>PING Golf</option>
+            <option>Srixon / Cleveland</option>
+            <option>Cobra Golf</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Est. Lead Time</label>
+          <select id="f-leadtime">
+            <option>1–2 weeks</option>
+            <option>2–3 weeks</option>
+            <option>3–4 weeks</option>
+            <option>4–6 weeks (custom)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Deposit Collected ($)</label>
+          <input type="number" id="f-deposit" placeholder="e.g. 300.00" step="0.01">
+        </div>
+        <div class="form-group">
+          <label>Payment Method</label>
+          <select id="f-payment">
+            <option>Credit Card</option>
+            <option>Cash</option>
+            <option>Debit Card</option>
+            <option>Gift Card</option>
+            <option>Financing</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group" style="margin-top:14px;">
+        <label>Build Notes for Shop Staff</label>
+        <textarea id="f-buildnotes" placeholder="Special instructions, custom stamping, finish preferences, assembly notes for the shop team..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delivery Preferences -->
+  <div class="card">
+    <div class="card-header"><h3>Customer Preferences & Confirmation</h3></div>
+    <div class="card-body">
+      <div class="form-grid form-grid-2">
+        <div class="form-group">
+          <label>Notification Preference</label>
+          <select id="f-notif">
+            <option>Email</option>
+            <option>Email + Text (when available)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Customer Rating (1–5)</label>
+          <input type="number" id="f-rating" min="1" max="5" placeholder="e.g. 5">
+        </div>
+        <div class="form-group">
+          <label>Customer Feedback</label>
+          <input type="text" id="f-feedback" placeholder="Any comments from the customer...">
+        </div>
+        <div class="form-group">
+          <label>Customer Signature Confirmed</label>
+          <select id="f-sig">
+            <option>Yes — verbal confirmation</option>
+            <option>Yes — written signature</option>
+            <option>Digital acknowledgment</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-outline" onclick="previewEmail()">👁 Preview Confirmation Email</button>
+    <button class="btn btn-gold" onclick="submitFitting()">✓ Complete Fitting &amp; Submit Order</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     PANEL 2: STAFF ORDER DASHBOARD
+══════════════════════════════════════════════════ -->
+<div class="panel" id="panel-dashboard">
+  <div class="page-header">
+    <h1>Order Dashboard</h1>
+    <p>All active and recent club orders. Update status to automatically notify customers by email.</p>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-bar">
+    <div class="stat-card">
+      <div class="stat-num" id="stat-total">0</div>
+      <div class="stat-label">Total Active</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" id="stat-ordered" style="color:#856404;">0</div>
+      <div class="stat-label">Ordered</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" id="stat-received" style="color:#1a56db;">0</div>
+      <div class="stat-label">Received</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" id="stat-ready" style="color:var(--green);">0</div>
+      <div class="stat-label">Ready</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" id="stat-issue" style="color:var(--red);">0</div>
+      <div class="stat-label">Issues</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" id="stat-revenue" style="color:var(--green-dark);font-size:18px;">$0</div>
+      <div class="stat-label">Pending Revenue</div>
+    </div>
+  </div>
+
+  <!-- Filters + New Fitting button -->
+  <div class="orders-toolbar">
+    <div class="filter-chips">
+      <button class="filter-chip active" onclick="filterOrders('all',this)">All Orders</button>
+      <button class="filter-chip" onclick="filterOrders('Fitting Complete',this)">Fitting Done</button>
+      <button class="filter-chip" onclick="filterOrders('Ordered',this)">Ordered</button>
+      <button class="filter-chip" onclick="filterOrders('Received',this)">Received</button>
+      <button class="filter-chip" onclick="filterOrders('Ready for Pickup',this)">Ready</button>
+      <button class="filter-chip" onclick="filterOrders('Issue Flagged',this)" style="color:var(--red);border-color:#fcc;">⚑ Issues</button>
+    </div>
+    <button class="btn btn-primary btn-sm" onclick="showPanel('fitter')">+ New Fitting</button>
+  </div>
+
+  <!-- Order Cards -->
+  <div class="orders-grid" id="ordersGrid">
+    <!-- Populated by JS -->
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     PANEL 3: CUSTOMER PORTAL
+══════════════════════════════════════════════════ -->
+<div class="panel" id="panel-customer">
+
+  <div class="portal-hero">
+    <h2>Track Your Custom <span>Clubs</span></h2>
+    <p>Enter your email and order ID to check the status of your custom build, view your complete specifications, and see what's due at pickup.</p>
+  </div>
+
+  <!-- Lookup Box -->
+  <div class="lookup-box">
+    <h3>Look Up Your Order</h3>
+    <div class="form-grid" style="margin-bottom:16px;">
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" id="c-email" placeholder="john@email.com">
+      </div>
+      <div class="form-group">
+        <label>Order ID (from your confirmation email)</label>
+        <input type="text" id="c-orderid" placeholder="e.g. FIT-842739">
+      </div>
+    </div>
+    <button class="btn btn-primary" style="width:100%;" onclick="lookupOrder()">Find My Order →</button>
+    <p style="text-align:center;font-size:12px;color:var(--text-light);margin-top:12px;">
+      Don't have your order ID? <a href="mailto:info@abovepar.golf" style="color:var(--green);">Email us</a> or call (240) 309-4208
+    </p>
+  </div>
+
+  <!-- Order Status Display (hidden until lookup) -->
+  <div class="order-status-view" id="customerOrderView">
+
+    <div class="card">
+      <div class="card-header">
+        <h3 id="c-ordername">Your Order</h3>
+        <span class="card-badge" id="c-orderid-display">FIT-000000</span>
+      </div>
+      <div class="card-body">
+
+        <!-- Status Timeline -->
+        <div class="status-timeline" id="statusTimeline">
+          <div class="timeline-step">
+            <div class="timeline-dot" id="ts-0">✓</div>
+            <div class="timeline-label" id="tl-0">Fitting<br>Complete</div>
+          </div>
+          <div class="timeline-step">
+            <div class="timeline-dot" id="ts-1">📦</div>
+            <div class="timeline-label" id="tl-1">Order<br>Placed</div>
+          </div>
+          <div class="timeline-step">
+            <div class="timeline-dot" id="ts-2">🏭</div>
+            <div class="timeline-label" id="tl-2">In<br>Production</div>
+          </div>
+          <div class="timeline-step">
+            <div class="timeline-dot" id="ts-3">🚚</div>
+            <div class="timeline-label" id="tl-3">Arrived<br>at Shop</div>
+          </div>
+          <div class="timeline-step">
+            <div class="timeline-dot" id="ts-4">🔍</div>
+            <div class="timeline-label" id="tl-4">QC<br>Inspection</div>
+          </div>
+          <div class="timeline-step">
+            <div class="timeline-dot" id="ts-5">⛳</div>
+            <div class="timeline-label" id="tl-5">Ready for<br>Pickup!</div>
+          </div>
+        </div>
+
+        <!-- Status message -->
+        <div id="c-status-message" style="background:#f8fffe;border:1px solid var(--green-light);border-radius:8px;padding:14px 18px;font-size:14px;color:var(--green-dark);margin-bottom:20px;line-height:1.6;"></div>
+
+        <!-- Specs -->
+        <div class="spec-display" id="customerSpecs">
+          <h4>Your Fitted Specifications</h4>
+          <div class="spec-grid" id="customerSpecGrid">
+            <!-- populated by JS -->
+          </div>
+        </div>
+
+        <!-- Pickup info -->
+        <div class="pickup-box" id="pickupBox">
+          <div>
+            <div class="pb-label">Estimated Ready Date</div>
+            <div class="pb-val" id="c-ready-date">—</div>
+          </div>
+          <div style="text-align:right;">
+            <div class="pb-label">Balance Due at Pickup</div>
+            <div class="pb-val" id="c-balance">—</div>
+          </div>
+          <div style="text-align:right;">
+            <div class="pb-label">Questions?</div>
+            <a href="tel:2403094208" style="color:var(--gold-light);font-size:14px;text-decoration:none;">(240) 309-4208</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- EMAIL PREVIEW MODAL -->
+<div class="email-preview-modal" id="emailModal">
+  <div class="email-modal-inner">
+    <div class="email-modal-header">
+      <h3>Email Preview — Confirmation</h3>
+      <button class="close-modal" onclick="closeEmailModal()">✕</button>
+    </div>
+    <div class="email-body">
+      <div class="email-subject">
+        Subject: <span id="emailSubject">Your Custom Fitting Specs — Above Par Golf</span>
+      </div>
+      <div class="email-content" id="emailContent">
+        <!-- populated by JS -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ══════════════════════════════════════════════════════
+// DATA
+// ══════════════════════════════════════════════════════
+
+const TM_HEADS = {
+  "Driver": [
+    {n:"Qi4D Driver 9° RH/LH",p:649.99,q:1}, {n:"Qi4D Driver 10.5° RH/LH",p:649.99,q:1},
+    {n:"Qi4D Driver 12° RH",p:649.99,q:1}, {n:"Qi4D LS Driver 9° RH/LH",p:649.99,q:1},
+    {n:"Qi4D LS Driver 10.5° RH/LH",p:649.99,q:1}, {n:"Qi4D Max Driver 9° RH/LH",p:649.99,q:1},
+    {n:"Qi4D Max Driver 10.5° RH/LH",p:649.99,q:1}, {n:"Qi4D Max Lite Driver 10.5° RH/LH",p:649.99,q:1},
+    {n:"Qi4D Max Women's Lite 10.5°",p:649.99,q:1},
+  ],
+  "Fairway Wood": [
+    {n:"Qi4D Fairway 3 15° RH/LH",p:379.99,q:1}, {n:"Qi4D Fairway 5 18° RH/LH",p:379.99,q:1},
+    {n:"Qi4D Fairway 7 21° RH/LH",p:379.99,q:1}, {n:"Qi4D Max Fairway 3 15° RH/LH",p:379.99,q:1},
+    {n:"Qi4D Max Fairway 5 18° RH/LH",p:379.99,q:1}, {n:"Qi4D Tour Fairway 3 15° RH/LH",p:449.99,q:1},
+    {n:"Qi4D Tour Fairway 5 18° RH/LH",p:449.99,q:1},
+  ],
+  "Rescue/Hybrid": [
+    {n:"Qi4D Rescue 3 19° RH/LH",p:299.99,q:1}, {n:"Qi4D Rescue 4 22° RH/LH",p:299.99,q:1},
+    {n:"Qi4D Rescue 5 25° RH/LH",p:299.99,q:1}, {n:"Qi4D Max Rescue 4 23° RH/LH",p:299.99,q:1},
+    {n:"Qi4D Max Rescue 5 27° RH/LH",p:299.99,q:1}, {n:"P-DHY 3 20° RH/LH",p:249.99,q:1},
+    {n:"P-DHY 4 22° RH/LH",p:249.99,q:1}, {n:"P-UDI 2 18° RH/LH",p:249.99,q:1},
+    {n:"P-UDI 3 20° RH/LH",p:249.99,q:1},
+  ],
+  "Iron Set": [
+    {n:"Qi Max Steel 7pc (4-PW)",p:1099.99,q:7}, {n:"Qi Max Graphite 7pc (4-PW)",p:1199.99,q:7},
+    {n:"Qi Max HL Steel 7pc",p:1099.99,q:7}, {n:"Qi Max HL Graphite 7pc",p:1199.99,q:7},
+    {n:"P790 Steel 7pc (4-PW)",p:1399.99,q:7}, {n:"P790 Graphite 7pc (4-PW)",p:1499.99,q:7},
+    {n:"P770 Steel 7pc (3-PW)",p:1399.99,q:7}, {n:"P7CB Steel 7pc",p:1399.99,q:7},
+    {n:"P7MB Steel 7pc",p:1299.99,q:7}, {n:"P7TW Steel 8pc",p:1999.99,q:8},
+  ],
+  "Iron (Individual)": [
+    {n:"Qi Max Steel",p:1099.99,q:7}, {n:"Qi Max Graphite",p:1199.99,q:7},
+    {n:"P790 Steel",p:1399.99,q:7}, {n:"P790 Graphite",p:1499.99,q:7},
+    {n:"P770 Steel",p:1399.99,q:7}, {n:"P7CB Steel",p:1399.99,q:7},
+    {n:"P7MB Steel",p:1299.99,q:7}, {n:"P7TW Steel",p:1999.99,q:8},
+  ],
+  "Wedge": [
+    {n:"MG5 50° SB-9 Satin Chrome",p:199.99,q:1}, {n:"MG5 52° SB-9 Satin Chrome",p:199.99,q:1},
+    {n:"MG5 54° SC-10 Satin Chrome",p:199.99,q:1}, {n:"MG5 54° SB-12 Satin Chrome",p:199.99,q:1},
+    {n:"MG5 56° LB-8 Satin Chrome",p:199.99,q:1}, {n:"MG5 56° SC-10 Satin Chrome",p:199.99,q:1},
+    {n:"MG5 56° SB-12 Satin Chrome",p:199.99,q:1}, {n:"MG5 58° SB-10 Satin Chrome",p:199.99,q:1},
+    {n:"MG5 60° SC-9 Satin Chrome",p:199.99,q:1}, {n:"MG5 60° SB-10 Satin Chrome",p:199.99,q:1},
+    {n:"Hi-Toe 4 54° ATS",p:179.99,q:1}, {n:"Hi-Toe 4 56° ATS",p:179.99,q:1},
+    {n:"Hi-Toe 4 58° ATS",p:179.99,q:1}, {n:"Hi-Toe 4 60° ATS",p:179.99,q:1},
+    {n:"Hi-Toe 4 60° ATW",p:179.99,q:1},
+  ],
+  "Putter": [
+    {n:"Spider Tour #3 RH/LH",p:349.99,q:1}, {n:"Spider Tour Double Bend RH/LH",p:349.99,q:1},
+    {n:"Spider Tour S RH/LH",p:349.99,q:1}, {n:"Spider Tour X #3 RH/LH",p:349.99,q:1},
+    {n:"Spider Tour X Double Bend RH/LH",p:349.99,q:1}, {n:"Spider Tour #3 Black RH/LH",p:349.99,q:1},
+    {n:"Spider ZT Standard RH/LH",p:449.99,q:1}, {n:"Spider ZT Counter Balance RH/LH",p:499.99,q:1},
+  ],
+};
+
+const DRIVER_SHAFTS = [
+  {n:"Fujikura AirSpeeder 40",f:"L",u:0},{n:"Fujikura AirSpeeder 50",f:"A",u:0},
+  {n:"Fujikura AirSpeeder 50",f:"R",u:0},{n:"Fujikura AirSpeeder 50",f:"S",u:0},
+  {n:"Fujikura 25 Ventus Blue",f:"R",u:0},{n:"Fujikura 25 Ventus Blue",f:"S",u:0},
+  {n:"TM|MCA REAX 50 MR",f:"R",u:0},{n:"TM|MCA REAX 50 MR",f:"S",u:0},
+  {n:"TM|MCA REAX 60 MR",f:"S",u:0},{n:"TM|MCA REAX 50 HR",f:"R",u:0},
+  {n:"TM|MCA REAX 50 HR",f:"S",u:0},{n:"TM|MCA REAX 60 LR",f:"S",u:0},
+  {n:"MCA Vanquish 40",f:"R",u:0},{n:"MCA Vanquish 50",f:"R",u:0},
+  {n:"MCA Tensei AV Ltd Blue 65",f:"S",u:0},{n:"MCA Tensei 1K Black 65",f:"S",u:0},
+  {n:"MCA Tensei 1K Black 65",f:"X",u:0},{n:"MCA Kai'li Blue CB 60",f:"S",u:0},
+  {n:"KBS Max HL 40",f:"A",u:50},{n:"KBS Max HL 50",f:"R",u:50},
+  {n:"Project X Cypher 40",f:"A",u:50},{n:"Project X Cypher 50",f:"R",u:50},
+  {n:"UST Helium NCT 5",f:"R",u:50},{n:"UST ProForce V2 60",f:"S",u:50},
+  {n:"UST Lin-Q Powercore Blue CB 6",f:"S",u:150},{n:"UST Lin-Q Powercore Red 6",f:"S",u:150},
+  {n:"Project X HZRDUS Black G5 60",f:"S",u:0},{n:"Project X Denali Frost Blue 60",f:"S",u:0},
+  {n:"Fujikura Ventus Blue w/Velocore+ 5",f:"R",u:350},{n:"Fujikura Ventus Blue w/Velocore+ 5",f:"S",u:350},
+  {n:"Fujikura Ventus Blue w/Velocore+ 6",f:"S",u:350},{n:"Fujikura Ventus Red w/Velocore+ 5",f:"R",u:350},
+  {n:"Fujikura Ventus Red w/Velocore+ 5",f:"S",u:350},{n:"Fujikura Ventus Black w/Velocore+ 5",f:"S",u:350},
+  {n:"Fujikura Ventus TR Blue w/Velocore 6",f:"S",u:350},{n:"Fujikura Ventus TR Red w/Velocore 6",f:"S",u:350},
+  {n:"GD Tour AD DI 6",f:"S",u:250},{n:"GD Tour AD DI 7",f:"S",u:250},
+  {n:"GD Tour AD VF 6",f:"S",u:250},{n:"GD Tour AD FI 6",f:"S",u:250},
+  {n:"MCA Diamana BB 53",f:"S",u:350},{n:"MCA Diamana RB 63",f:"S",u:350},
+  {n:"Aretera EC1 Blue 55",f:"3-R",u:320},{n:"Aretera AO2 Blue 65",f:"4-S",u:420},
+  {n:"Accra TZ5 65",f:"S (M4)",u:250},{n:"Accra TZ6 65",f:"S (M4)",u:250},
+];
+
+const HYBRID_SHAFTS = [
+  {n:"Fujikura Ventus Blue HB 5",f:"A",u:0},{n:"Fujikura Ventus Blue HB 6",f:"R",u:0},
+  {n:"Fujikura Ventus Blue HB 7",f:"S",u:0},
+  {n:"TM|MCA REAX 45 HY",f:"R",u:0},{n:"TM|MCA REAX 50 HY",f:"R",u:0},
+  {n:"TM|MCA REAX 50 HY",f:"S",u:0},{n:"TM|MCA REAX 65 HY",f:"R",u:0},
+  {n:"MCA Vanquish 5",f:"R",u:0},{n:"MCA Tensei AV Ltd Blue 65 HY",f:"R",u:0},
+  {n:"KBS Max HL 40 Hybrid",f:"L",u:0},{n:"KBS Max HL 50 Hybrid",f:"A",u:0},
+  {n:"KBS Max HL 60 Hybrid",f:"R",u:0},
+  {n:"GD Tour AD VF 75 HY",f:"R",u:150},{n:"GD Tour AD VF 85 HY",f:"S",u:150},
+  {n:"Aerotech Steelfiber i95",f:"R",u:50},{n:"Aerotech Steelfiber i80",f:"R",u:50},
+  {n:"Fujikura Ventus Blue w/Velocore+ 7 HY",f:"S",u:190},
+];
+
+const IRON_SHAFTS = [
+  {n:"KBS Tour Lite",f:"R",u:0},{n:"KBS Tour Lite",f:"S",u:0},
+  {n:"KBS Max Lite",f:"R",u:0},{n:"KBS Max 85 MT",f:"R",u:0},
+  {n:"True Temper Dynamic Gold",f:"S300",u:0},{n:"True Temper Dynamic Gold",f:"X100",u:0},
+  {n:"True Temper Dynamic Gold 105",f:"S300",u:0},
+  {n:"N.S. Pro Modus 105",f:"R",u:0},{n:"N.S. Pro Modus 105",f:"S",u:0},
+  {n:"Project X 5.5",f:"R",u:0},{n:"Project X 6.0",f:"S",u:0},
+  {n:"TM|MCA REAX 50 HL",f:"R",u:0},{n:"TM|MCA REAX 50 HL",f:"S",u:0},
+  {n:"KBS Tour",f:"S",u:15},{n:"KBS Tour",f:"X",u:15},
+  {n:"KBS C-Taper",f:"S",u:15},{n:"KBS C-Taper",f:"X",u:15},
+  {n:"KBS $ Taper Chrome",f:"S",u:15},{n:"KBS $ Taper Chrome",f:"X",u:15},
+  {n:"N.S. Pro 950",f:"R",u:15},{n:"N.S. Pro 950",f:"S",u:15},
+  {n:"True Temper Dynamic Gold 120",f:"S300",u:15},
+  {n:"True Temper Dynamic Gold Tour Issue",f:"S400",u:30},
+  {n:"Project X LZ 5.5",f:"R",u:15},{n:"Project X LZ 6.0",f:"S",u:15},
+  {n:"Project X Red 6.0",f:"S",u:30},
+  {n:"Aerotech Steelfiber i95",f:"R",u:50},{n:"Aerotech Steelfiber i95",f:"S",u:50},
+  {n:"KBS Max Graphite 65",f:"R",u:15},{n:"KBS Max Graphite 75",f:"S",u:15},
+  {n:"Fujikura Axiom 105",f:"S",u:100},
+  {n:"UST Recoil Dart ESX 460",f:"R (F3)",u:15},{n:"UST Recoil Dart ESX 460",f:"S (F4)",u:15},
+];
+
+const WEDGE_SHAFTS = [
+  {n:"KBS Hi-Rev 2.0 115",f:"Wedge R",u:0},
+  {n:"KBS Tour Lite",f:"S",u:0},{n:"KBS Tour",f:"S",u:0},{n:"KBS Tour",f:"X",u:0},
+  {n:"True Temper Dynamic Gold",f:"S300",u:0},{n:"True Temper Dynamic Gold Tour Issue 115g",f:"Wedge",u:0},
+  {n:"N.S. Pro Modus 105",f:"S",u:0},
+  {n:"KBS $ Taper Chrome",f:"S",u:15},{n:"KBS C-Taper",f:"S",u:15},
+  {n:"True Temper Dynamic Gold 95",f:"R300",u:15},
+  {n:"Project X",f:"S (6.0)",u:15},{n:"Project X Wedge",f:"S (6.0)",u:15},
+  {n:"Aerotech Steelfiber i95",f:"S",u:50},
+  {n:"True Temper DG Tour Issue Black",f:"S400",u:30},
+];
+
+const SWING_GRIPS = [
+  {n:"Golf Pride Tour Velvet (TM Logo)",s:"Standard",u:0},
+  {n:"Golf Pride Tour Velvet",s:"Standard",u:6.50},{n:"Golf Pride Tour Velvet",s:"Mid-Size",u:6.50},
+  {n:"Golf Pride Tour Velvet Cord",s:"Standard",u:12},{n:"Golf Pride Tour Wrap 2G",s:"Standard",u:8},
+  {n:"Golf Pride Tour Wrap 2G",s:"Mid-Size",u:8},{n:"Golf Pride MCC",s:"Standard",u:12},
+  {n:"Golf Pride MCC",s:"Mid-Size",u:12},{n:"Golf Pride CP2 Pro",s:"Standard",u:10},
+  {n:"Golf Pride CP2 Wrap",s:"Standard",u:10},{n:"Golf Pride CP2 Wrap",s:"Mid-Size",u:10},
+  {n:"Golf Pride MCC Plus4",s:"Standard",u:12},{n:"Golf Pride MCC Plus4 Align",s:"Standard",u:12},
+  {n:"Golf Pride Z Grip (TM Logo)",s:"Standard",u:0},{n:"Golf Pride Z Grip Plus2",s:"Standard",u:0},
+  {n:"Lamkin Crossline",s:"Standard",u:6.50},{n:"Lamkin Crossline",s:"Mid-Size",u:6.50},
+  {n:"Lamkin Crossline 360 (Qi Iron)",s:"Standard",u:0},{n:"Lamkin Sonar Plus",s:"Standard",u:10},
+  {n:"Lamkin Sonar Plus",s:"Mid-Size",u:10},
+  {n:"SuperStroke REVL Player",s:"Standard",u:8.50},{n:"SuperStroke REVL Element",s:"Standard",u:10},
+  {n:"SuperStroke Crossline 2.0",s:"Standard",u:6.50},
+  {n:"Winn Dri-Tac 2.0",s:"Standard",u:10},{n:"Winn Dri-Tac 2.0",s:"Mid-Size",u:10},
+  {n:"Iomic Sticky 2.3",s:"Standard",u:12},
+];
+
+const PUTTER_GRIPS = [
+  {n:"Golf Pride TM Pistol",s:"Standard",u:0},
+  {n:"Golf Pride Reverse Taper Pistol",s:"Standard",u:30},
+  {n:"Golf Pride Pro Only Cord Green Star",s:"Standard",u:20},
+  {n:"Lamkin Deep-Etched",s:"Standard",u:10},{n:"Lamkin Sink Fit Skinny",s:"Standard",u:0},
+  {n:"SuperStroke Pistol GTR 1.0",s:"Mid-Size",u:0},
+  {n:"SuperStroke Zenergy Tour 2.0",s:"Oversize",u:20},
+  {n:"SuperStroke Zenergy Flatso 2.0",s:"Oversize",u:20},
+  {n:"SuperStroke Zenergy Claw 2.0",s:"Mid-Size",u:20},
+  {n:"SuperStroke 2.0 XL Spider",s:"Oversize",u:0},
+];
+
+// Club row definitions
+const CLUB_ROWS = [
+  {section: "DRIVER", clubs: []},
+  {section: null, clubs: [{l:"Driver", t:"Driver", st:"driver"}]},
+  {section: "FAIRWAY WOODS", clubs: []},
+  {section: null, clubs: [
+    {l:"3-Wood", t:"Fairway Wood", st:"driver"},
+    {l:"5-Wood", t:"Fairway Wood", st:"driver"},
+    {l:"7-Wood", t:"Fairway Wood", st:"driver"},
+  ]},
+  {section: "RESCUE / HYBRIDS", clubs: []},
+  {section: null, clubs: [
+    {l:"Hybrid 1", t:"Rescue/Hybrid", st:"hybrid"},
+    {l:"Hybrid 2", t:"Rescue/Hybrid", st:"hybrid"},
+    {l:"Hybrid 3", t:"Rescue/Hybrid", st:"hybrid"},
+  ]},
+  {section: "IRON SET (shaft upcharge × qty)", clubs: []},
+  {section: null, clubs: [
+    {l:"Iron Set", t:"Iron Set", st:"iron", isSet:true},
+    {l:"Iron Set 2 / Combo", t:"Iron Set", st:"iron", isSet:true},
+  ]},
+  {section: "INDIVIDUAL IRONS", clubs: []},
+  {section: null, clubs: [
+    {l:"2-Iron", t:"Iron (Individual)", st:"iron"},
+    {l:"3-Iron", t:"Iron (Individual)", st:"iron"},
+    {l:"4-Iron", t:"Iron (Individual)", st:"iron"},
+    {l:"5-Iron", t:"Iron (Individual)", st:"iron"},
+    {l:"6-Iron", t:"Iron (Individual)", st:"iron"},
+    {l:"7-Iron", t:"Iron (Individual)", st:"iron"},
+    {l:"8-Iron", t:"Iron (Individual)", st:"iron"},
+    {l:"9-Iron", t:"Iron (Individual)", st:"iron"},
+    {l:"Pitching Wedge (Iron)", t:"Iron (Individual)", st:"iron"},
+    {l:"Approach Wedge (Iron)", t:"Iron (Individual)", st:"iron"},
+  ]},
+  {section: "WEDGES", clubs: []},
+  {section: null, clubs: [
+    {l:"Wedge 1 — PW", t:"Wedge", st:"wedge"},
+    {l:"Wedge 2 — GW", t:"Wedge", st:"wedge"},
+    {l:"Wedge 3 — SW", t:"Wedge", st:"wedge"},
+    {l:"Wedge 4 — LW", t:"Wedge", st:"wedge"},
+    {l:"Wedge 5", t:"Wedge", st:"wedge"},
+    {l:"Wedge 6", t:"Wedge", st:"wedge"},
+    {l:"Wedge 7", t:"Wedge", st:"wedge"},
+    {l:"Wedge 8", t:"Wedge", st:"wedge"},
+  ]},
+  {section: "PUTTER", clubs: []},
+  {section: null, clubs: [{l:"Putter", t:"Putter", st:"putter"}]},
+];
+
+function ucBadge(u) {
+  if(u===0) return '';
+  if(u<=50) return '<span class="upcharge-badge">[$]</span>';
+  if(u<=150) return '<span class="upcharge-badge">[$$]</span>';
+  if(u<=350) return '<span class="upcharge-badge">[$$$]</span>';
+  return '<span class="upcharge-badge">[$$$$]</span>';
+}
+
+function shaftOptions(st) {
+  const shafts = st==='driver' ? DRIVER_SHAFTS : st==='hybrid' ? HYBRID_SHAFTS :
+                 st==='iron' ? IRON_SHAFTS : st==='wedge' ? WEDGE_SHAFTS : [];
+  if(st==='putter') return '<option value="">Stock Shaft</option>';
+  let html = '<option value="">— Select Shaft —</option>';
+  shafts.forEach(s => {
+    const badge = s.u > 0 ? ` [${s.u>350?'$$$$':s.u>150?'$$$':s.u>50?'$$':'$'}]` : '';
+    html += `<option value="${s.u}">${s.n} — ${s.f}${badge}</option>`;
+  });
+  return html;
+}
+
+function gripOptions(st) {
+  const grips = st==='putter' ? PUTTER_GRIPS : SWING_GRIPS;
+  let html = '<option value="">— Select Grip —</option>';
+  grips.forEach(g => {
+    const badge = g.u > 0 ? ` [${'$'.repeat(g.u<=50?1:g.u<=150?2:3)}]` : '';
+    html += `<option value="${g.u}">${g.n} — ${g.s}${badge}</option>`;
+  });
+  return html;
+}
+
+function headOptions(t) {
+  const models = TM_HEADS[t] || [];
+  if(!models.length) return '<option value="">N/A</option>';
+  let html = '<option value="">— Select Model —</option>';
+  models.forEach(m => {
+    html += `<option value="${m.p}|${m.q}">${m.n}</option>`;
+  });
+  return html;
+}
+
+let rowIdx = 0;
+function buildTable() {
+  const tbody = document.getElementById('buildBody');
+  tbody.innerHTML = '';
+  rowIdx = 0;
+
+  CLUB_ROWS.forEach(group => {
+    if (group.section !== null) {
+      // Section header row
+      if (group.section) {
+        const tr = document.createElement('tr');
+        tr.className = 'section-row';
+        tr.innerHTML = `<td colspan="12">▶ ${group.section}</td>`;
+        tbody.appendChild(tr);
+      }
+      // Club rows
+      group.clubs.forEach((club, i) => {
+        const rid = rowIdx++;
+        const tr = document.createElement('tr');
+        tr.id = `row-${rid}`;
+        tr.dataset.rid = rid;
+
+        tr.innerHTML = `
+          <td><span class="club-label">${club.l}</span></td>
+          <td>
+            <select class="head-sel" data-rid="${rid}" data-type="${club.t}" data-isset="${club.isSet || false}"
+              onchange="calcRow(${rid})" title="Select head model">
+              ${headOptions(club.t)}
+            </select>
+          </td>
+          <td>
+            <select class="shaft-sel" data-rid="${rid}" onchange="calcRow(${rid})" title="Select shaft">
+              ${shaftOptions(club.st)}
+            </select>
+          </td>
+          <td>
+            <select class="grip-sel" data-rid="${rid}" onchange="calcRow(${rid})" title="Select grip">
+              ${gripOptions(club.st)}
+            </select>
+          </td>
+          <td>
+            <select class="hand-sel" style="width:58px;padding:5px 4px;border:1.5px solid #ddd;border-radius:5px;font-size:11px;cursor:pointer;">
+              <option>RH</option><option>LH</option>
+            </select>
+          </td>
+          <td>
+            <select class="len-sel" style="width:62px;padding:5px 4px;border:1.5px solid #ddd;border-radius:5px;font-size:11px;cursor:pointer;">
+              <option>STD</option><option>+0.5"</option><option>+1.0"</option>
+              <option>+1.5"</option><option>+2.0"</option>
+              <option>-0.5"</option><option>-1.0"</option>
+            </select>
+          </td>
+          <td>
+            <select class="lie-sel" style="width:62px;padding:5px 4px;border:1.5px solid #ddd;border-radius:5px;font-size:11px;cursor:pointer;">
+              <option>STD</option>
+              <option>1° Up</option><option>2° Up</option><option>3° Up</option><option>4° Up</option>
+              <option>1° Flat</option><option>2° Flat</option><option>3° Flat</option><option>4° Flat</option>
+            </select>
+          </td>
+          <td class="price-cell" id="qty-${rid}" style="text-align:center;color:#bbb;">—</td>
+          <td class="price-cell" id="base-${rid}"><span class="inactive-price">—</span></td>
+          <td class="price-cell" id="suc-${rid}"><span class="inactive-price">—</span></td>
+          <td class="price-cell" id="guc-${rid}"><span class="inactive-price">—</span></td>
+          <td class="total-cell" id="ltot-${rid}"><span class="inactive-price">—</span></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+  });
+}
+
+function calcRow(rid) {
+  const tr = document.getElementById(`row-${rid}`);
+  const headSel = document.querySelector(`.head-sel[data-rid="${rid}"]`);
+  const shaftSel = document.querySelector(`.shaft-sel[data-rid="${rid}"]`);
+  const gripSel = document.querySelector(`.grip-sel[data-rid="${rid}"]`);
+
+  if (!headSel) return;
+
+  const isSet = headSel.dataset.isset === 'true';
+  const modelSelected = headSel.value && headSel.value !== '';
+
+  // No model selected — show dashes, remove active class
+  if (!modelSelected) {
+    tr.classList.remove('has-selection');
+    ['base','suc','guc'].forEach(p => {
+      document.getElementById(`${p}-${rid}`).innerHTML = '<span class="inactive-price">—</span>';
+    });
+    document.getElementById(`qty-${rid}`).textContent = '—';
+    document.getElementById(`qty-${rid}`).style.color = '#bbb';
+    const ltotEl = document.getElementById(`ltot-${rid}`);
+    ltotEl.innerHTML = '<span class="inactive-price">—</span>';
+    ltotEl.classList.remove('has-value');
+    calcTotals();
+    return;
+  }
+
+  // Model selected — activate row
+  tr.classList.add('has-selection');
+
+  const parts = headSel.value.split('|');
+  const setPrice = parseFloat(parts[0]) || 0;
+  const pieces = parseInt(parts[1]) || 1;
+  const qty = isSet ? pieces : 1;
+  const basePerClub = setPrice / pieces;
+
+  const shaftUC = shaftSel && shaftSel.value ? parseFloat(shaftSel.value) : 0;
+  const gripUC = gripSel && gripSel.value ? parseFloat(gripSel.value) : 0;
+
+  const lineTotal = isSet
+    ? (basePerClub * qty) + (shaftUC * qty) + (gripUC * qty)
+    : basePerClub + shaftUC + gripUC;
+
+  // Qty
+  const qtyEl = document.getElementById(`qty-${rid}`);
+  qtyEl.textContent = qty;
+  qtyEl.style.color = isSet ? 'var(--green-dark)' : '#666';
+
+  // Base price
+  document.getElementById(`base-${rid}`).innerHTML =
+    `$${basePerClub.toFixed(2)}`;
+
+  // Shaft upcharge
+  document.getElementById(`suc-${rid}`).innerHTML = shaftUC > 0
+    ? (isSet ? `$${(shaftUC * qty).toFixed(2)}<br><span style="font-size:9px;color:#999">×${qty} clubs</span>` : `$${shaftUC.toFixed(2)}`)
+    : '<span class="inactive-price">—</span>';
+
+  // Grip upcharge
+  document.getElementById(`guc-${rid}`).innerHTML = gripUC > 0
+    ? (isSet ? `$${(gripUC * qty).toFixed(2)}<br><span style="font-size:9px;color:#999">×${qty}</span>` : `$${gripUC.toFixed(2)}`)
+    : '<span class="inactive-price">—</span>';
+
+  // Line total
+  const ltotEl = document.getElementById(`ltot-${rid}`);
+  ltotEl.textContent = `$${lineTotal.toFixed(2)}`;
+  ltotEl.classList.add('has-value');
+
+  calcTotals();
+}
+
+function calcTotals() {
+  let subtotal = 0;
+  // Sum all rows that have a model selected (has-selection class)
+  const activeRows = document.querySelectorAll('#buildBody tr.has-selection');
+  activeRows.forEach(tr => {
+    const rid = tr.dataset.rid;
+    if (rid === undefined) return;
+    const ltot = document.getElementById(`ltot-${rid}`);
+    if (ltot && ltot.textContent && ltot.textContent !== '—') {
+      const val = parseFloat(ltot.textContent.replace('$','').replace(',',''));
+      if (!isNaN(val)) subtotal += val;
+    }
+  });
+
+  const feeEl = document.getElementById('f-type');
+  const feeVal = feeEl ? feeEl.value : '';
+  const fee = (feeVal.includes('2hr') || feeVal.includes('Full Bag')) ? 200 : 100;
+
+  document.getElementById('t-subtotal').textContent = subtotal > 0 ? `$${subtotal.toFixed(2)}` : '$0.00';
+  document.getElementById('t-fitting').textContent = `$${fee.toFixed(2)}`;
+  document.getElementById('t-total').textContent = subtotal > 0 ? `$${(subtotal + fee).toFixed(2)}` : `$${fee.toFixed(2)}`;
+}
+
+// ══════════════════════════════════════════════════════
+// JSONBIN CONFIGURATION
+// ══════════════════════════════════════════════════════
+// SETUP INSTRUCTIONS (one-time, ~3 minutes):
+//   1. Go to https://jsonbin.io and create a free account
+//   2. Click "CREATE BIN" — paste in this starter JSON and save:
+//      {"orders":[]}
+//   3. Copy the BIN ID from the URL (looks like: 6621f3abc4d5e6789012abcd)
+//   4. Go to API Keys → Master Key → copy your key
+//   5. Replace the two placeholder values below with your real ones
+//   6. That's it — the portal is now fully live and persistent!
+//
+// NOTE: Your bin is private by default. Only requests with your
+// Master Key can read or write to it. Keep this key confidential.
+
+const JSONBIN_BIN_ID  = 'PASTE_YOUR_BIN_ID_HERE';
+const JSONBIN_API_KEY = 'PASTE_YOUR_MASTER_KEY_HERE';
+const JSONBIN_URL     = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`;
+
+// ── In-memory cache — loaded once on page load, kept in sync ──
+let orders = [];
+let dbReady = false;
+
+// ── Loading overlay helpers ──
+function showLoader(msg) {
+  let el = document.getElementById('db-loader');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'db-loader';
+    el.style.cssText = `
+      position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+      background:rgba(10,61,44,0.93);color:#c9a44c;padding:10px 24px;
+      border-radius:8px;font-family:'DM Mono',monospace;font-size:12px;
+      z-index:9999;box-shadow:0 4px 20px rgba(0,0,0,0.3);
+      display:flex;align-items:center;gap:8px;
+    `;
+    document.body.appendChild(el);
+  }
+  el.innerHTML = `<span style="animation:spin 0.8s linear infinite;display:inline-block">⟳</span> ${msg}`;
+  el.style.display = 'flex';
+}
+
+function hideLoader() {
+  const el = document.getElementById('db-loader');
+  if (el) el.style.display = 'none';
+}
+
+// Add spinner animation
+const spinStyle = document.createElement('style');
+spinStyle.textContent = '@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}';
+document.head.appendChild(spinStyle);
+
+// ── CORE DB FUNCTIONS ──
+
+// Load all orders from JSONbin into memory
+async function loadOrders() {
+  // Config check — don't attempt real API call if placeholders still set
+  if (JSONBIN_BIN_ID === 'PASTE_YOUR_BIN_ID_HERE') {
+    // Running in demo mode — populate with sample data so the portal
+    // looks and works exactly right while you set up JSONbin
+    orders = [
+      {
+        id:'FIT-842739', customer:'Mike Peluso', email:'mpeluso@email.com',
+        fitter:'Ryan Goldsborough', date:'2026-04-08', fitType:'Full Bag',
+        vendor:'TaylorMade Golf', leadTime:'3–4 weeks', deposit:300,
+        status:'Ordered', total:2847.50, balance:2547.50,
+        clubs:'P790 Steel 7pc, Qi4D Driver 10.5°, 3 Fairway Woods',
+        shaft:'KBS Tour S300', grip:'Golf Pride MCC Plus4 Std',
+        flex:'Stiff', lie:'1° Upright', hand:'RH',
+        buildNotes:'Customer plays off 8 — finish the irons to spec before calling. Check lie board on all irons.',
+        fitterNotes:'Gained 18 yds carry with P790s. Very happy with KBS Tour shafts.',
+        flagged:false, estimatedReady:'2026-05-01'
+      },
+      {
+        id:'FIT-391047', customer:'Sarah Kellerman', email:'skellerman@email.com',
+        fitter:'Ryan Goldsborough', date:'2026-04-10', fitType:'Driver Only',
+        vendor:'TaylorMade Golf', leadTime:'2–3 weeks', deposit:200,
+        status:'Fitting Complete', total:999.99, balance:799.99,
+        clubs:'Qi4D Max Driver 12°',
+        shaft:'Fujikura Ventus Blue w/Velocore+ 5 R', grip:'Golf Pride Z Grip (TM Logo) Std',
+        flex:'Regular', lie:'Standard', hand:'RH',
+        buildNotes:"Women's driver, 44\" length. She hit the 12° 20 yds longer — great fit.",
+        fitterNotes:'Launch angle jumped from 10° to 14.5°. Clean fitter.',
+        flagged:false, estimatedReady:'2026-04-28'
+      },
+      {
+        id:'FIT-174820', customer:'Dan Kowalski', email:'dkowalski@email.com',
+        fitter:'Ryan Goldsborough', date:'2026-03-29', fitType:'Irons',
+        vendor:'TaylorMade Golf', leadTime:'2–3 weeks', deposit:350,
+        status:'Ready for Pickup', total:1549.99, balance:1199.99,
+        clubs:'P7CB Steel 7pc (3-PW)',
+        shaft:'True Temper Dynamic Gold Tour Issue S400', grip:'Golf Pride Tour Velvet Std',
+        flex:'Stiff', lie:'2° Upright', hand:'RH',
+        buildNotes:'Tour issue shafts — double-check set makeup includes 3-PW. Stickers on shaft need to face same direction.',
+        fitterNotes:'Low handicap player — went from P790 to P7CB. Very deliberate about set makeup.',
+        flagged:false, estimatedReady:'2026-04-14'
+      },
+      {
+        id:'FIT-509384', customer:'Tom Garrett', email:'tgarrett@email.com',
+        fitter:'Ryan Goldsborough', date:'2026-04-03', fitType:'Full Bag',
+        vendor:'TaylorMade Golf', leadTime:'4–6 weeks (custom)', deposit:500,
+        status:'Issue Flagged', total:3299.99, balance:2799.99,
+        clubs:'Qi Max HL Graphite 7pc, Qi4D Max Driver, 3-Wood, 2 Hybrids, 4 Wedges',
+        shaft:'TM|MCA REAX 50 HL R (irons), Fujikura AirSpeeder 50 R (woods)',
+        grip:'Lamkin Crossline 360 Std',
+        flex:'Regular', lie:'1° Flat', hand:'RH',
+        buildNotes:'⚑ ISSUE: Clubs on backorder until mid-May. Called customer 4/12 — awaiting callback.',
+        fitterNotes:'Senior player, 72 yrs. Graphite throughout. Very patient — just keep him updated.',
+        flagged:true, estimatedReady:'2026-05-20'
+      },
+    ];
+    dbReady = false; // mark as demo so saves are skipped
+    return;
+  }
+
+  showLoader('Loading orders…');
+  try {
+    const res = await fetch(JSONBIN_URL + '/latest', {
+      headers: { 'X-Master-Key': JSONBIN_API_KEY }
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    orders = data.record.orders || [];
+    dbReady = true;
+  } catch (err) {
+    console.error('JSONbin load error:', err);
+    showToast('⚠️ Could not load orders from database. Check your JSONbin config.');
+    orders = [];
+    dbReady = false;
+  } finally {
+    hideLoader();
+  }
+}
+
+// Save the full orders array back to JSONbin
+async function saveOrders() {
+  if (!dbReady) {
+    // Demo mode — just re-render, skip the API call
+    return;
+  }
+  showLoader('Saving…');
+  try {
+    const res = await fetch(JSONBIN_URL, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Master-Key': JSONBIN_API_KEY
+      },
+      body: JSON.stringify({ orders })
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  } catch (err) {
+    console.error('JSONbin save error:', err);
+    showToast('⚠️ Save failed — check your internet connection.');
+  } finally {
+    hideLoader();
+  }
+}
+
+function renderDashboard() {
+  const grid = document.getElementById('ordersGrid');
+  const filter = grid.dataset.filter || 'all';
+  grid.innerHTML = '';
+
+  if (!dbReady && orders.length === 0) {
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:#999;font-family:DM Mono,monospace;font-size:13px;">Loading orders from database…</div>';
+    return;
+  }
+
+  const filtered = filter === 'all' ? orders : orders.filter(o => o.status === filter);
+
+  if (filtered.length === 0) {
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:#999;font-family:DM Mono,monospace;font-size:13px;">No orders match this filter.</div>';
+    updateStats();
+    return;
+  }
+
+  filtered.forEach(o => {
+    const card = document.createElement('div');
+    card.className = `order-card ${o.flagged?'issue':''} ${o.status==='Ready for Pickup'?'ready':''} ${o.status==='Picked Up'?'picked-up':''}`;
+    const statusClass = {
+      'Fitting Complete':'fitting','Ordered':'ordered','Received':'received',
+      'QC in Progress':'qc','Ready for Pickup':'ready','Picked Up':'picked-up','Issue Flagged':'issue'
+    }[o.status] || 'fitting';
+
+    card.innerHTML = `
+      <div class="order-card-header">
+        <div>
+          <div class="order-card-name">${o.customer}</div>
+          <div class="order-card-id">${o.id} · ${o.fitType} · ${o.fitter.split(' ')[0]}</div>
+        </div>
+        <span class="status-pill status-${statusClass}">${o.status}</span>
+      </div>
+      <div class="order-card-body">
+        <div class="order-spec-row">
+          <span class="spec-label">Clubs</span>
+          <span class="spec-val">${o.clubs}</span>
+        </div>
+        <div class="order-spec-row">
+          <span class="spec-label">Shaft</span>
+          <span class="spec-val">${o.shaft}</span>
+        </div>
+        <div class="order-spec-row">
+          <span class="spec-label">Grip</span>
+          <span class="spec-val">${o.grip}</span>
+        </div>
+        <div class="order-spec-row">
+          <span class="spec-label">Vendor</span>
+          <span class="spec-val">${o.vendor} · Est. ${o.estimatedReady}</span>
+        </div>
+        ${o.buildNotes ? `<div class="build-note-tag">📌 ${o.buildNotes}</div>` : ''}
+      </div>
+      <div class="order-card-footer">
+        <select class="status-select" onchange="updateStatus('${o.id}',this.value)">
+          <option ${o.status==='Fitting Complete'?'selected':''}>Fitting Complete</option>
+          <option ${o.status==='Ordered'?'selected':''}>Ordered</option>
+          <option ${o.status==='Received'?'selected':''}>Received</option>
+          <option ${o.status==='QC in Progress'?'selected':''}>QC in Progress</option>
+          <option ${o.status==='Ready for Pickup'?'selected':''}>Ready for Pickup</option>
+          <option ${o.status==='Picked Up'?'selected':''}>Picked Up</option>
+          <option ${o.status==='Issue Flagged'?'selected':''}>Issue Flagged</option>
+        </select>
+        <span class="balance-tag">Balance: $${o.balance.toFixed(2)}</span>
+        <button class="btn btn-sm ${o.flagged?'btn-danger':'btn-outline'}" onclick="toggleFlag('${o.id}')" title="${o.flagged?'Unflag':'Flag Issue'}">
+          ${o.flagged ? '⚑ Flagged' : '⚐ Flag'}
+        </button>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+
+  updateStats();
+}
+
+async function updateStatus(id, newStatus) {
+  const order = orders.find(o => o.id === id);
+  if(!order) return;
+  const old = order.status;
+  order.status = newStatus;
+  if(newStatus !== old) {
+    const messages = {
+      'Ordered': `📦 Order placed for ${order.customer}! Auto-email queued.`,
+      'Received': `📬 Clubs received for ${order.customer}. QC email queued.`,
+      'Ready for Pickup': `✅ ${order.customer}'s clubs are ready! Pickup email queued.`,
+      'Picked Up': `🏌️ ${order.customer} picked up their clubs. Follow-up email queued.`,
+      'Issue Flagged': `⚑ Issue flagged on ${order.customer}'s order.`,
+    };
+    showToast(messages[newStatus] || `Status updated to ${newStatus}`);
+    await saveOrders();
+    renderDashboard();
+  }
+}
+
+async function toggleFlag(id) {
+  const order = orders.find(o => o.id === id);
+  if(order) {
+    order.flagged = !order.flagged;
+    await saveOrders();
+    renderDashboard();
+  }
+}
+
+function filterOrders(status, btn) {
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('ordersGrid').dataset.filter = status;
+  renderDashboard();
+}
+
+function updateStats() {
+  const active = orders.filter(o => o.status !== 'Picked Up');
+  document.getElementById('stat-total').textContent = active.length;
+  document.getElementById('stat-ordered').textContent = orders.filter(o=>o.status==='Ordered').length;
+  document.getElementById('stat-received').textContent = orders.filter(o=>o.status==='Received'||o.status==='QC in Progress').length;
+  document.getElementById('stat-ready').textContent = orders.filter(o=>o.status==='Ready for Pickup').length;
+  document.getElementById('stat-issue').textContent = orders.filter(o=>o.flagged).length;
+  const pending = orders.filter(o=>o.status!=='Picked Up').reduce((s,o)=>s+o.balance,0);
+  document.getElementById('stat-revenue').textContent = `$${pending.toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0})}`;
+}
+
+// ── CUSTOMER PORTAL ──
+async function lookupOrder() {
+  const email = document.getElementById('c-email').value.trim().toLowerCase();
+  const oid = document.getElementById('c-orderid').value.trim().toUpperCase();
+
+  if (!email || !oid) {
+    showToast('Please enter both your email address and order ID.');
+    return;
+  }
+
+  // If orders haven't loaded yet, try loading now
+  if (orders.length === 0 && !dbReady) {
+    showLoader('Looking up your order…');
+    await loadOrders();
+    hideLoader();
+  }
+
+  const order = orders.find(o =>
+    o.email.toLowerCase() === email && o.id === oid
+  );
+
+  if (!order) {
+    showToast('Order not found. Please check your email and order ID, or contact us at (240) 309-4208.');
+    document.getElementById('customerOrderView').classList.remove('visible');
+    return;
+  }
+
+  renderCustomerOrder(order);
+}
+
+function renderCustomerOrder(o) {
+  document.getElementById('c-ordername').textContent = `${o.customer}'s Order`;
+  document.getElementById('c-orderid-display').textContent = o.id;
+  document.getElementById('c-ready-date').textContent = o.estimatedReady;
+  document.getElementById('c-balance').textContent = `$${o.balance.toFixed(2)}`;
+
+  const statusSteps = ['Fitting Complete','Ordered','Ordered','Received','QC in Progress','Ready for Pickup'];
+  const currentIdx = statusSteps.indexOf(o.status);
+  const effectiveIdx = currentIdx === -1 ? 0 : currentIdx;
+
+  for(let i=0; i<6; i++) {
+    const dot = document.getElementById(`ts-${i}`);
+    const lbl = document.getElementById(`tl-${i}`);
+    dot.className = 'timeline-dot';
+    lbl.className = 'timeline-label';
+    if(i < effectiveIdx) { dot.classList.add('done'); lbl.classList.add('done'); }
+    else if(i === effectiveIdx) { dot.classList.add('current'); lbl.classList.add('current'); }
+  }
+
+  const messages = {
+    'Fitting Complete': `Your fitting is complete! We're preparing your order for ${o.vendor}. You'll receive an email once your order has been placed — typically within 1 business day.`,
+    'Ordered': `Great news! Your clubs have been ordered from ${o.vendor} and are currently in production. Estimated arrival: around ${o.estimatedReady}.`,
+    'Received': `Your clubs have arrived at Above Par! Our team is currently performing a quality inspection to make sure every spec matches your build sheet exactly.`,
+    'QC in Progress': `QC inspection is in progress. We're verifying every specification — lie angles, shaft flex, grip sizes — to make sure everything is perfect before we call you.`,
+    'Ready for Pickup': `🎉 Your clubs are ready! Come pick them up during our store hours. Balance due at pickup: $${o.balance.toFixed(2)}. We can't wait to see you play them!`,
+    'Issue Flagged': `We wanted to reach out — there's a small update on your order. A member of our team will be contacting you shortly to discuss next steps.`,
+  };
+
+  document.getElementById('c-status-message').textContent = messages[o.status] || `Status: ${o.status}`;
+
+  const specGrid = document.getElementById('customerSpecGrid');
+  specGrid.innerHTML = `
+    <div class="spec-item"><div class="si-label">Clubs Ordered</div><div class="si-val">${o.clubs}</div></div>
+    <div class="spec-item"><div class="si-label">Shaft</div><div class="si-val">${o.shaft}</div></div>
+    <div class="spec-item"><div class="si-label">Grip</div><div class="si-val">${o.grip}</div></div>
+    <div class="spec-item"><div class="si-label">Flex</div><div class="si-val">${o.flex}</div></div>
+    <div class="spec-item"><div class="si-label">Lie Angle</div><div class="si-val">${o.lie}</div></div>
+    <div class="spec-item"><div class="si-label">Hand</div><div class="si-val">${o.hand}</div></div>
+    <div class="spec-item"><div class="si-label">Fitting Date</div><div class="si-val">${o.date}</div></div>
+    <div class="spec-item"><div class="si-label">Fitter</div><div class="si-val">${o.fitter}</div></div>
+  `;
+
+  document.getElementById('customerOrderView').classList.add('visible');
+  document.getElementById('customerOrderView').scrollIntoView({behavior:'smooth'});
+}
+
+// ── EMAIL PREVIEW ──
+function previewEmail() {
+  const fn = document.getElementById('f-firstname').value || 'Customer';
+  const ln = document.getElementById('f-lastname').value || '';
+  const email = document.getElementById('f-email').value || 'customer@email.com';
+  const fid = document.getElementById('fitting-id-display').textContent;
+  const vendor = document.getElementById('f-vendor').value;
+  const leadtime = document.getElementById('f-leadtime').value;
+
+  document.getElementById('emailSubject').textContent = `Your Custom Club Fitting Specs — Above Par Golf (${fid})`;
+
+  document.getElementById('emailContent').innerHTML = `
+    <div class="e-logo">
+      <div class="e-logo-text">Above <span>Par</span> Golf & Entertainment</div>
+      <div style="font-size:11px;color:#888;margin-top:4px;">Leonardtown, MD · (240) 309-4208 · abovepar.golf</div>
+    </div>
+
+    <p>Hi ${fn},</p>
+    <p style="margin:12px 0;">Thank you for your custom fitting at Above Par Golf! We've captured all of your specifications below — these are saved permanently to your profile, so you'll never need to re-measure for future orders or fill-in clubs.</p>
+
+    <table class="email-spec-table">
+      <tr><td>Order ID</td><td><strong>${fid}</strong></td></tr>
+      <tr><td>Fitting Date</td><td>${new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'})}</td></tr>
+      <tr><td>Fitter</td><td>${document.getElementById('f-fitter').value}</td></tr>
+      <tr><td>Shaft Flex</td><td>${document.getElementById('f-flex').value || 'TBD'}</td></tr>
+      <tr><td>Grip Size</td><td>${document.getElementById('f-gripsize').value || 'TBD'}</td></tr>
+      <tr><td>Lie Adjustment</td><td>${document.getElementById('f-lie').value}</td></tr>
+      <tr><td>Vendor</td><td>${vendor}</td></tr>
+      <tr><td>Est. Lead Time</td><td>${leadtime}</td></tr>
+    </table>
+
+    <p style="margin:12px 0;"><strong>What happens next?</strong></p>
+    <p>Your order will be placed with ${vendor} within 1 business day. You'll receive an email update at each stage:</p>
+    <ul style="margin:8px 0 8px 20px;line-height:2;">
+      <li>When your order is placed with the vendor</li>
+      <li>When your clubs arrive at our shop</li>
+      <li>When they've passed our quality inspection and are ready for pickup</li>
+    </ul>
+    <p>You can check your order status anytime at <strong>abovepar.golf/my-order</strong> using your Order ID: <strong>${fid}</strong></p>
+
+    <div style="background:#f0f7f4;border-left:4px solid #1D9E75;padding:14px 16px;border-radius:4px;margin:20px 0;">
+      <strong>Fitting Credit Reminder:</strong> Every $500 you spend on clubs earns $100 in fitting credit toward a future fitting. We'll track this automatically on your account.
+    </div>
+
+    <p>Questions? Reply to this email, call us at <strong>(240) 309-4208</strong>, or stop in during our store hours.</p>
+    <p style="margin-top:16px;">We can't wait to see you on the course with your new sticks!</p>
+    <p>— Ryan &amp; The Above Par Team</p>
+
+    <div style="margin-top:24px;padding-top:16px;border-top:1px solid #eee;font-size:11px;color:#aaa;text-align:center;">
+      Above Par Golf &amp; Entertainment · Leonardtown, MD 20650<br>
+      Mon–Thu 9am–8pm · Fri–Sat 9am–9pm · Sun 9am–5pm<br>
+      <a href="https://www.abovepar.golf" style="color:#1D9E75;">abovepar.golf</a>
+    </div>
+  `;
+
+  document.getElementById('emailModal').classList.add('open');
+}
+
+function closeEmailModal() {
+  document.getElementById('emailModal').classList.remove('open');
+}
+
+// ── SUBMIT FITTING ──
+async function submitFitting() {
+  const fn = document.getElementById('f-firstname').value.trim();
+  const ln = document.getElementById('f-lastname').value.trim();
+  const email = document.getElementById('f-email').value.trim();
+
+  if(!fn || !ln || !email) {
+    showToast('Please fill in customer name and email before submitting.');
+    return;
+  }
+
+  // Collect selected build rows — any row where a model has been chosen
+  const activeRows = document.querySelectorAll('#buildBody tr.has-selection');
+  const clubLines = [];
+  activeRows.forEach(tr => {
+    const rid = tr.dataset.rid;
+    if (rid === undefined) return;
+    const clubLabel = tr.querySelector('.club-label')?.textContent || '';
+    const headSel = document.querySelector(`.head-sel[data-rid="${rid}"]`);
+    const shaftSel = document.querySelector(`.shaft-sel[data-rid="${rid}"]`);
+    const gripSel = document.querySelector(`.grip-sel[data-rid="${rid}"]`);
+    const handSel = tr.querySelector('.hand-sel');
+    const lenSel = tr.querySelector('.len-sel');
+    const lieSel = tr.querySelector('.lie-sel');
+    const model = headSel?.options[headSel.selectedIndex]?.text || '';
+    const shaft = shaftSel?.options[shaftSel.selectedIndex]?.text || '';
+    const grip = gripSel?.options[gripSel.selectedIndex]?.text || '';
+    const ltot = document.getElementById(`ltot-${rid}`)?.textContent || '';
+    if (model && model !== '— Select Model —') {
+      clubLines.push({
+        club: clubLabel, model, shaft, grip,
+        hand: handSel?.value || 'RH',
+        lengthAdj: lenSel?.value || 'STD',
+        lieAdj: lieSel?.value || 'STD',
+        lineTotal: ltot
+      });
+    }
+  });
+
+  const clubsSummary = clubLines.map(c => `${c.club}: ${c.model}`).join(' | ') || 'See build notes';
+  const shaftSummary = [...new Set(clubLines.map(c => c.shaft).filter(s => s && s !== '— Select Shaft —'))].join(', ') || document.getElementById('f-flex').value || 'TBD';
+  const gripSummary = [...new Set(clubLines.map(c => c.grip).filter(g => g && g !== '— Select Grip —'))].join(', ') || document.getElementById('f-gripsize').value || 'TBD';
+
+  const fid = document.getElementById('fitting-id-display').textContent;
+  const deposit = parseFloat(document.getElementById('f-deposit').value) || 0;
+  const totalEl = document.getElementById('t-total').textContent;
+  const total = parseFloat(totalEl.replace('$','')) || 0;
+
+  const newOrder = {
+    id: fid,
+    customer: `${fn} ${ln}`,
+    email: email,
+    phone: document.getElementById('f-phone').value || '',
+    fitter: document.getElementById('f-fitter').value,
+    date: document.getElementById('f-date').value || new Date().toISOString().split('T')[0],
+    fitType: document.getElementById('f-type').value,
+    vendor: document.getElementById('f-vendor').value,
+    leadTime: document.getElementById('f-leadtime').value,
+    deposit: deposit,
+    status: 'Fitting Complete',
+    total: total,
+    balance: Math.max(0, total - deposit),
+    clubs: clubsSummary,
+    clubLines: clubLines,
+    shaft: shaftSummary,
+    grip: gripSummary,
+    flex: document.getElementById('f-flex').value || 'TBD',
+    gripSize: document.getElementById('f-gripsize').value || 'TBD',
+    lie: document.getElementById('f-lie').value,
+    hand: document.getElementById('f-hand').value,
+    chs: document.getElementById('f-chs').value || '',
+    ballSpeed: document.getElementById('f-bs').value || '',
+    carry: document.getElementById('f-carry').value || '',
+    handicap: document.getElementById('f-handicap').value || '',
+    buildNotes: document.getElementById('f-buildnotes').value,
+    fitterNotes: document.getElementById('f-goals').value,
+    rating: document.getElementById('f-rating').value || '',
+    feedback: document.getElementById('f-feedback').value || '',
+    paymentMethod: document.getElementById('f-payment').value,
+    flagged: false,
+    createdAt: new Date().toISOString(),
+    estimatedReady: new Date(Date.now() + 21*24*60*60*1000).toISOString().split('T')[0]
+  };
+
+  orders.unshift(newOrder);
+  await saveOrders();
+
+  if (dbReady) {
+    showToast(`✅ Fitting saved! Order ${fid} created for ${fn} ${ln}. Confirmation email queued for ${email}.`);
+  } else {
+    showToast(`✅ Fitting complete for ${fn} ${ln}! (Demo mode — add JSONbin keys to save permanently)`);
+  }
+
+  // Reset form for next fitting
+  document.getElementById('f-firstname').value = '';
+  document.getElementById('f-lastname').value = '';
+  document.getElementById('f-email').value = '';
+  document.getElementById('f-phone').value = '';
+  document.getElementById('f-handicap').value = '';
+  document.getElementById('f-chs').value = '';
+  document.getElementById('f-bs').value = '';
+  document.getElementById('f-carry').value = '';
+  document.getElementById('f-spin').value = '';
+  document.getElementById('f-flex').value = '';
+  document.getElementById('f-gripsize').value = '';
+  document.getElementById('f-deposit').value = '';
+  document.getElementById('f-buildnotes').value = '';
+  document.getElementById('f-goals').value = '';
+  document.getElementById('f-rating').value = '';
+  document.getElementById('f-feedback').value = '';
+  // Reset all build table selects
+  document.querySelectorAll('.head-sel').forEach(s => { s.selectedIndex = 0; });
+  document.querySelectorAll('.shaft-sel').forEach(s => { s.selectedIndex = 0; });
+  document.querySelectorAll('.grip-sel').forEach(s => { s.selectedIndex = 0; });
+  document.querySelectorAll('#buildBody tr.has-selection').forEach(tr => tr.classList.remove('has-selection'));
+  calcTotals();
+
+  setTimeout(() => {
+    document.getElementById('fitting-id-display').textContent = 'FIT-' + Math.floor(100000 + Math.random()*900000);
+  }, 300);
+
+  setTimeout(() => {
+    showPanel('dashboard');
+    renderDashboard();
+  }, 1800);
+}
+
+// ── UTILITIES ──
+function showPanel(name) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(`panel-${name}`).classList.add('active');
+  const tabMap = {fitter:0, dashboard:1, customer:2};
+  document.querySelectorAll('.nav-tab')[tabMap[name]].classList.add('active');
+  if(name==='dashboard') renderDashboard();
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 4500);
+}
+
+// ── INIT — Wix iframe safe ──
+// Wix sandboxed iframes sometimes fire DOMContentLoaded before scripts run.
+// We use multiple strategies to guarantee init runs.
+
+async function portalInit() {
+  if (window._portalInitDone) return;
+  window._portalInitDone = true;
+
+  // Set fitting ID
+  const fidEl = document.getElementById('fitting-id-display');
+  if (fidEl) fidEl.textContent = 'FIT-' + Math.floor(100000 + Math.random() * 900000);
+
+  // Set today's date
+  const dateEl = document.getElementById('f-date');
+  if (dateEl) dateEl.value = new Date().toISOString().split('T')[0];
+
+  // Build the club table
+  buildTable();
+
+  // Load orders from JSONbin (or demo data if not configured)
+  await loadOrders();
+
+  // Render dashboard now that data is loaded
+  renderDashboard();
+
+  // Clear customer portal pre-fill
+  const cEmail = document.getElementById('c-email');
+  const cOid = document.getElementById('c-orderid');
+  if (cEmail) cEmail.value = '';
+  if (cOid) cOid.value = '';
+
+  // Show demo mode banner if not configured
+  if (JSONBIN_BIN_ID === 'PASTE_YOUR_BIN_ID_HERE') {
+    const existing = document.getElementById('demo-banner');
+    if (!existing) {
+      const banner = document.createElement('div');
+      banner.id = 'demo-banner';
+      banner.style.cssText = `
+        background:#fff3cd;border-bottom:1px solid #ffc107;color:#856404;
+        padding:8px 20px;text-align:center;font-size:12px;
+        font-family:'DM Mono',monospace;position:sticky;top:60px;z-index:199;
+      `;
+      banner.innerHTML = `⚠️ <strong>Demo Mode</strong> — orders are not being saved.
+        <a href="https://jsonbin.io" target="_blank" style="color:#856404;margin-left:8px;font-weight:600;">
+          Set up JSONbin to go live →
+        </a>`;
+      const nav = document.querySelector('.portal-nav');
+      if (nav && nav.parentNode) nav.parentNode.insertBefore(banner, nav.nextSibling);
+    }
+  }
+}
+
+// Strategy 1: Run immediately if DOM is already ready
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+  setTimeout(portalInit, 0);
+}
+
+// Strategy 2: DOMContentLoaded
+document.addEventListener('DOMContentLoaded', portalInit);
+
+// Strategy 3: window load (catches everything)
+window.addEventListener('load', portalInit);
+
+// Strategy 4: Hard fallback after 500ms no matter what
+setTimeout(portalInit, 500);
+</script>
+</body>
+</html>
